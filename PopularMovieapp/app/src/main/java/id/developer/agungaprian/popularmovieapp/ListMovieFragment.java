@@ -1,5 +1,6 @@
 package id.developer.agungaprian.popularmovieapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 import id.developer.agungaprian.popularmovieapp.adapter.ListMovieAdapter;
 import id.developer.agungaprian.popularmovieapp.model.MovieModel;
@@ -81,7 +84,16 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
 
     @Override
     public void onClick(MovieModel position) {
+        Bundle bundle = new Bundle();
+        ArrayList<MovieModel> movieModels = new ArrayList<>();
 
+        movieModels.add(position);
+        bundle.putParcelableArrayList(getString(R.string.GET_MOVIE_DATA), movieModels);
+
+        Intent intent = new Intent(this.getActivity(), DetailMovieActivity.class);
+        intent.putExtras(bundle);
+
+        startActivity(intent);
     }
 
     private class FetchMovieTask extends AsyncTask<String, Void, MovieModel[]>{

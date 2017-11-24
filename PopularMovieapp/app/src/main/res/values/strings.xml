@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Popular Movie app</string>
     <string name="pesan_eror">Tidak dapat menyambungkan ke internet silahkan ketuk refresh</string>
+    <string name="GET_MOVIE_DATA">get_movie_data</string>
 </resources>
