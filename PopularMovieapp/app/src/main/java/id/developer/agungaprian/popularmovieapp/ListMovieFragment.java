@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import id.developer.agungaprian.popularmovieapp.adapter.ListMovieAdapter;
 import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 import id.developer.agungaprian.popularmovieapp.util.JsonUtil;
@@ -42,7 +40,6 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_movie_fragment, container, false);
-        ButterKnife.bind(getActivity(), view);
 
         errorMessageDisplay = (TextView)view.findViewById(R.id.eror_message);
 

@@ -53,17 +53,17 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
     @Override
     public int getItemCount() {
         if (null == data) return 0;
+
         return data.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        //add id to bindView Annotation
-        @BindView(R.id.image_poster)
         ImageView poster;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(context, itemView);
+            //ambil view dari poster_movie
+            poster = (ImageView)itemView.findViewById(R.id.image_poster);
         }
     }
 
