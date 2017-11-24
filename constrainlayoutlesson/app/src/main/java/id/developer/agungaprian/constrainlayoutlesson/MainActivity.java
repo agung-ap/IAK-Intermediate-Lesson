@@ -25,5 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //display team name
         teamA.setText(getIntent().getStringExtra("team_a").toUpperCase());
         teamB.setText(getIntent().getStringExtra("team_b").toUpperCase());
+
+
     }
 }

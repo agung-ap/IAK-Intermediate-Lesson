@@ -67,7 +67,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingTop="10dp"
-            android:text="@string/overview_header"
+            android:text="Overview"
             android:textColor="#000000"
             android:textSize="25sp" />
 
@@ -90,7 +90,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingRight="10dp"
-                android:text="@string/trailers_header"
+                android:text="Trailer"
                 android:textColor="#000000"
                 android:textSize="25sp" />
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
-                android:text="@string/reviews_header"
+                android:text="Riview"
                 android:textColor="#000000"
                 android:textSize="25sp" />
 

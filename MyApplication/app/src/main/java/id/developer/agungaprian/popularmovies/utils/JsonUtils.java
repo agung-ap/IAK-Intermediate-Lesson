@@ -4,9 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import id.developer.agungaprian.popularmovies.models.MovieModel;
+import id.developer.agungaprian.popularmovies.models.TrailerModel;
 
 /**
  * Created by agungaprian on 07/11/17.
@@ -14,7 +13,7 @@ import id.developer.agungaprian.popularmovies.models.MovieModel;
 
 public class JsonUtils {
 
-    public static MovieModel[] getDataFromJson(String jsonMovie) throws JSONException {
+    public static MovieModel[] getMovieFromJson(String jsonMovie) throws JSONException {
         //get array
         JSONObject jsonObject = new JSONObject(jsonMovie);
         JSONArray jsonArray = jsonObject.getJSONArray("results");
@@ -30,6 +29,7 @@ public class JsonUtils {
             JSONObject object = jsonArray.getJSONObject(i);
 
             //taruh data ke movie objek
+            movieModels[i].setId(object.getInt(/*tulis key json nya*/ "id"));
             movieModels[i].setOriginalTitle(object.getString(/*tulis key json nya*/ "original_title"));
             movieModels[i].setPosterPath(object.getString(/*tulis key json nya*/ "poster_path"));
             movieModels[i].setOverView(object.getString(/*tulis key json nya*/ "overview"));
@@ -39,5 +39,24 @@ public class JsonUtils {
         }
 
         return movieModels;
+    }
+
+    public static TrailerModel[] getTrailerFromJson(String jsonTrailer) throws JSONException{
+
+        JSONObject jsonObject = new JSONObject(jsonTrailer);
+        JSONArray jsonArray = jsonObject.getJSONArray("results");
+
+        TrailerModel [] trailerModels = new TrailerModel[jsonArray.length()];
+
+        for (int i = 0 ; i < jsonArray.length(); i++){
+            trailerModels [i] = new TrailerModel();
+
+            JSONObject object = jsonArray.getJSONObject(i);
+
+            trailerModels[i].setId(object.getString("id"));
+            trailerModels[i].setKey(object.getString("key"));
+        }
+
+        return trailerModels;
     }
 }

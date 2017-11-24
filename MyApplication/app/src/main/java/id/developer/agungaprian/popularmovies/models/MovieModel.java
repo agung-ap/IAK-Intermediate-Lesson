@@ -3,11 +3,16 @@ package id.developer.agungaprian.popularmovies.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by agungaprian on 05/11/17.
  */
 
-public class MovieModel implements Parcelable {
+public class MovieModel extends RealmObject implements Parcelable {
+    //public int idDatabase;
+    private int id;
     private String originalTitle;
     private String posterPath;
     private String overView;
@@ -25,6 +30,7 @@ public class MovieModel implements Parcelable {
         releaseDate = in.readString();
         backdropPath = in.readString();
         voteAverage = in.readDouble();
+        id = in.readInt();
     }
 
     @Override
@@ -35,6 +41,7 @@ public class MovieModel implements Parcelable {
         dest.writeString(releaseDate);
         dest.writeString(backdropPath);
         dest.writeDouble(voteAverage);
+        dest.writeInt(id);
     }
 
     @Override
@@ -53,6 +60,14 @@ public class MovieModel implements Parcelable {
             return new MovieModel[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOriginalTitle() {
         return originalTitle;

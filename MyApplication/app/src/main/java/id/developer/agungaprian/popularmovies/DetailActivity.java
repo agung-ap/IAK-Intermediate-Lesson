@@ -1,5 +1,6 @@
 package id.developer.agungaprian.popularmovies;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -24,12 +25,15 @@ import id.developer.agungaprian.popularmovies.models.MovieModel;
 public class DetailActivity extends AppCompatActivity {
     private ArrayList<MovieModel> movieModels;
     private String movieTItle;
+    static Context getContext;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_detail_movie);
         ButterKnife.bind(this);
+
+        getContext = getApplicationContext();
 
 
         if (savedInstanceState == null){
@@ -46,12 +50,13 @@ public class DetailActivity extends AppCompatActivity {
                     .add(R.id.detail_movie_fragment, fragment)
                     .commit();
         }else {
-            movieTItle = savedInstanceState.getString("title");
+            movieTItle = savedInstanceState.getString(getString(R.string.GET_SELECTED_RECIPE));
         }
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public static Context getContextApplication(){
+        return getContext;
     }
 
     @Override

@@ -12,9 +12,9 @@ import android.widget.EditText;
  */
 
 public class StartGamePlay extends AppCompatActivity {
+    //define
     private EditText inputTeamA, inputTeamB;
     private Button startGame;
-    private String teamA, teamB;
 
     @Override
     public void onCreate( Bundle savedInstanceState) {
@@ -30,6 +30,7 @@ public class StartGamePlay extends AppCompatActivity {
         startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //init intent
                 Intent intent = new Intent(StartGamePlay.this , MainActivity.class);
                 intent.putExtra("team_a", String.valueOf(inputTeamA.getText().toString().trim()));
                 intent.putExtra("team_b", String.valueOf(inputTeamB.getText().toString().trim()));
@@ -38,4 +39,5 @@ public class StartGamePlay extends AppCompatActivity {
             }
         });
     }
+
 }

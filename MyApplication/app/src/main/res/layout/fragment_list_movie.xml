@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.RecyclerView
+    <id.developer.agungaprian.popularmovies.utils.GridRecyclerViewAnimation
         android:id="@+id/recyclerview_list_movie"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layoutAnimation="@anim/grid_layout_animation_from_bottom"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
