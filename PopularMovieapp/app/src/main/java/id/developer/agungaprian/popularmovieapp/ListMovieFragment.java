@@ -25,17 +25,13 @@ import id.developer.agungaprian.popularmovieapp.util.NetworkUtils;
  * Created by agungaprian on 18/11/17.
  */
 
-public class ListMovieFragment extends Fragment {
+public class ListMovieFragment extends Fragment implements ListMovieAdapter.MovieAdapterOnClickHandler{
 
     private ListMovieAdapter adapter;
 
-    @BindView(R.id.grid_movie)
     RecyclerView recyclerView;
-    @BindView(R.id.eror_message)
-    TextView erroMessage;
-    @BindView(R.id.refresh_button)
+    TextView errorMessageDisplay;
     ImageButton refreshButton;
-    @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
     private static String apiKey = "5dcd6ed59f6311eeeaeb846201f551b6";
@@ -48,8 +44,20 @@ public class ListMovieFragment extends Fragment {
         View view = inflater.inflate(R.layout.list_movie_fragment, container, false);
         ButterKnife.bind(getActivity(), view);
 
+        errorMessageDisplay = (TextView)view.findViewById(R.id.eror_message);
+
+        refreshButton = (ImageButton)view.findViewById(R.id.refresh_button);
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progress_bar);
+
+        recyclerView = (RecyclerView)view.findViewById(R.id.grid_movie);
+
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         recyclerView.setLayoutManager(gridLayoutManager);
+
+        //init adapter
+        adapter = new ListMovieAdapter(getContext(), this);
+        recyclerView.setAdapter(adapter);
 
         loadMovieData();
         return view;
@@ -64,14 +72,19 @@ public class ListMovieFragment extends Fragment {
 
     public void showMovie(){
         recyclerView.setVisibility(View.VISIBLE);
-        erroMessage.setVisibility(View.INVISIBLE);
+        errorMessageDisplay.setVisibility(View.INVISIBLE);
         refreshButton.setVisibility(View.INVISIBLE);
     }
 
     public void showEror(){
         recyclerView.setVisibility(View.INVISIBLE);
-        erroMessage.setVisibility(View.VISIBLE);
+        errorMessageDisplay.setVisibility(View.VISIBLE);
         refreshButton.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(MovieModel position) {
+
     }
 
     private class FetchMovieTask extends AsyncTask<String, Void, MovieModel[]>{

@@ -21,9 +21,16 @@ import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.ViewHolder> {
     Context context;
     MovieModel[] data;
+    MovieAdapterOnClickHandler clickHandler;
+
+    public ListMovieAdapter(Context context, MovieAdapterOnClickHandler clickHandler) {
+        this.context = context;
+        this.clickHandler = clickHandler;
+    }
 
     public void setMovieAdapter(MovieModel[] data){
         this.data = data;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,6 +52,7 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
 
     @Override
     public int getItemCount() {
+        if (null == data) return 0;
         return data.length;
     }
 
@@ -57,5 +65,10 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
             super(itemView);
             ButterKnife.bind(context, itemView);
         }
+    }
+
+    //buat interface click handler
+    public interface MovieAdapterOnClickHandler{
+        void onClick(MovieModel position);
     }
 }
