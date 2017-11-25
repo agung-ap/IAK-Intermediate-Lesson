@@ -2,12 +2,24 @@ package id.developer.agungaprian.popularmovieapp;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 
 /**
  * Created by agungaprian on 24/11/17.
@@ -15,9 +27,9 @@ import butterknife.ButterKnife;
 
 public class DetailMovieFragment extends Fragment {
     private ArrayList<MovieModel> movieModels = new ArrayList<>();
-    TrailerModel[] trailerLIst ;
+    //TrailerModel[] trailerLIst ;
     String imageBackdropUrl;
-    TrailerAdapter trailerAdapter;
+    //TrailerAdapter trailerAdapter;
 
     @BindView(R.id.toolbarImage)
     ImageView toolImage;
@@ -52,12 +64,20 @@ public class DetailMovieFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detail_fragment, container, false);
-        setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null){
+        ((DetailMovieActivity)getActivity()).setSupportActionBar(toolbar);
+        ((DetailMovieActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //allow menu in fragment
+        setHasOptionsMenu(true);
 
+        if (savedInstanceState != null){
+            movieModels = savedInstanceState.getParcelableArrayList(getString(R.string.GET_MOVIE_DATA));
+        }else {
+            movieModels = getArguments().getParcelableArrayList(getString(R.string.GET_MOVIE_DATA));
         }
+
+
         return view;
     }
 }
