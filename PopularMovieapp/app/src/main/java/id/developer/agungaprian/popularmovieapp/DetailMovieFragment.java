@@ -14,6 +14,40 @@ import butterknife.ButterKnife;
  */
 
 public class DetailMovieFragment extends Fragment {
+    private ArrayList<MovieModel> movieModels = new ArrayList<>();
+    TrailerModel[] trailerLIst ;
+    String imageBackdropUrl;
+    TrailerAdapter trailerAdapter;
+
+    @BindView(R.id.toolbarImage)
+    ImageView toolImage;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.titleView)
+    TextView titleView;
+    @BindView(R.id.rating)
+    TextView rating;
+    @BindView(R.id.ratingBar)
+    RatingBar ratingBar;
+    @BindView(R.id.overview)
+    TextView overview;
+    @BindView(R.id.releaseText)
+    TextView releaseText;
+    @BindView(R.id.trailersRecyclerView)
+    RecyclerView trailersRecyclerView;
+    @BindView(R.id.reviewsRecyclerView)
+    RecyclerView reviewsRecyclerView;
+    @BindView(R.id.noReviewView)
+    TextView noReviewView;
+    @BindView(R.id.noTrailerView)
+    TextView noTrailerView;
+    @BindView(R.id.extras)
+    LinearLayout extraLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
