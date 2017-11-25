@@ -1,8 +1,10 @@
 package id.developer.agungaprian.popularmovieapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,11 +67,16 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMovieData();
+                //loadMovieData();
             }
         });
 
-        loadMovieData();
+        if (getSortMethod().equals("popular")){
+            loadMovieData(popularUrl);
+        }else {
+            loadMovieData(topRatedUrl);
+        }
+
         return view;
     }
 
@@ -117,18 +124,41 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.sort_by_popular:
+                updatePrefrences("popular");
+
                 ((ListMovieActivity)getActivity())
                         .getSupportActionBar().setTitle("Popular");
+
                 loadMovieData(popularUrl);
                 break;
             case R.id.sort_by_top_rated:
+                updatePrefrences("top rated");
+
                 ((ListMovieActivity)getActivity())
                         .getSupportActionBar().setTitle("Top Rated");
+
                 loadMovieData(topRatedUrl);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private String getSortMethod(){
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(getContext());
+
+        return preferences.getString(getString(R.string.PREFRENCES_KEY),"popular");
+    }
+
+    private void updatePrefrences(String sortMethod){
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(getContext());
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getString(R.string.PREFRENCES_KEY), sortMethod);
+        editor.apply();
+    }
+
 
     private class FetchMovieTask extends AsyncTask<String, Void, MovieModel[]>{
         String rootUrl;
