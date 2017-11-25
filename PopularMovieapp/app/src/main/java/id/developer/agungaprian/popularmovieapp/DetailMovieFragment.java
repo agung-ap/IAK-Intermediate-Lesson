@@ -15,6 +15,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -77,7 +79,23 @@ public class DetailMovieFragment extends Fragment {
             movieModels = getArguments().getParcelableArrayList(getString(R.string.GET_MOVIE_DATA));
         }
 
-
+        //add collapsing toolbar name
+        collapsingToolbarLayout.setTitle(movieModels.get(0).getOriginalTitle());
+        //add collapsing toolbar image
+        Picasso.with(getContext())
+                .load(movieModels.get(0).getBackdropPath())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.eror_image)
+                .into(imageView);
+        //set rating value
+        rating.setText(String.valueOf ( movieModels.get(0).getVoteAverage() ) );
+        //set ratingbar value and maximum rating
+        ratingBar.setMax(5);
+        ratingBar.setRating((float) (movieModels.get(0).getVoteAverage() / 2f));
+        //set overview value
+        overview.setText(movieModels.get(0).getOverView());
+        //set release date
+        releaseText.setText(movieModels.get(0).getReleaseDate());
         return view;
     }
 }
