@@ -48,6 +48,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_movie_fragment, container, false);
+        setHasOptionsMenu(true);
 
         errorMessageDisplay = (TextView)view.findViewById(R.id.eror_message);
 
@@ -73,8 +74,10 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
 
         if (getSortMethod().equals("popular")){
             loadMovieData(popularUrl);
+            ((ListMovieActivity)getActivity()).getSupportActionBar().setTitle("Popular");
         }else {
             loadMovieData(topRatedUrl);
+            ((ListMovieActivity)getActivity()).getSupportActionBar().setTitle("Top Rated");
         }
 
         return view;
