@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -37,8 +36,8 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
     ProgressBar progressBar;
 
     private static String apiKey = "5dcd6ed59f6311eeeaeb846201f551b6";
-    private static String rootUrl = "https://api.themoviedb.org/3/movie/popular?";
-
+    private static String popularUrl = "https://api.themoviedb.org/3/movie/popular?";
+    private static String topRatedUrl = "https://api.themoviedb.org/3/movie/top_rated?";
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -59,6 +58,13 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         //init adapter
         adapter = new ListMovieAdapter(getContext(), this);
         recyclerView.setAdapter(adapter);
+        //load movie data when refresh data isTouched
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMovieData();
+            }
+        });
 
         loadMovieData();
         return view;
@@ -111,7 +117,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         protected MovieModel[] doInBackground(String... params) {
             NetworkUtils networkUtils = new NetworkUtils();
 
-            String jsonData = networkUtils.makeServiceCall(NetworkUtils.buildUrl(rootUrl, apiKey));
+            String jsonData = networkUtils.makeServiceCall(NetworkUtils.buildUrl(popularUrl, apiKey));
 
             if (jsonData != null){
                 try {

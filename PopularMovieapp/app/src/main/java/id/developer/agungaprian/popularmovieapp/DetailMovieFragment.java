@@ -96,7 +96,7 @@ public class DetailMovieFragment extends Fragment {
         //set title view
         titleView.setText(movieModels.get(0).getOriginalTitle());
         //set rating value
-        rating.setText(String.valueOf ( movieModels.get(0).getVoteAverage() ) );
+        rating.setText(String.valueOf ( movieModels.get(0).getVoteAverage() ) + " / 10");
         //set ratingbar value and maximum rating
         ratingBar.setMax(5);
         ratingBar.setRating((float) (movieModels.get(0).getVoteAverage() / 2f));
