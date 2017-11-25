@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -70,11 +73,11 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         return view;
     }
 
-    public void loadMovieData(){
+    public void loadMovieData(String rootUrl){
         showMovie();
 
         //load data dari internet
-        new FetchMovieTask().execute();
+        new FetchMovieTask(rootUrl).execute();
     }
 
     public void showMovie(){
@@ -101,11 +104,38 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         intent.putExtras(bundle);
 
         startActivity(intent);
-
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.sort_by_popular:
+                ((ListMovieActivity)getActivity())
+                        .getSupportActionBar().setTitle("Popular");
+                loadMovieData(popularUrl);
+                break;
+            case R.id.sort_by_top_rated:
+                ((ListMovieActivity)getActivity())
+                        .getSupportActionBar().setTitle("Top Rated");
+                loadMovieData(topRatedUrl);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private class FetchMovieTask extends AsyncTask<String, Void, MovieModel[]>{
+        String rootUrl;
+
+        public FetchMovieTask(String rootUrl) {
+            this.rootUrl = rootUrl;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -117,7 +147,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         protected MovieModel[] doInBackground(String... params) {
             NetworkUtils networkUtils = new NetworkUtils();
 
-            String jsonData = networkUtils.makeServiceCall(NetworkUtils.buildUrl(popularUrl, apiKey));
+            String jsonData = networkUtils.makeServiceCall(NetworkUtils.buildUrl(rootUrl, apiKey));
 
             if (jsonData != null){
                 try {
