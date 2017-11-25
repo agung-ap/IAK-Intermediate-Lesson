@@ -64,6 +64,9 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
             super(itemView);
             //ambil view dari poster_movie
             poster = (ImageView)itemView.findViewById(R.id.image_poster);
+
+            //call setOnClickListener and put contex in paramater
+            itemView.setOnClickListener(this);
         }
 
         //implement onclicklistener

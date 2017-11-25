@@ -85,7 +85,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
 
     @Override
     public void onClick(MovieModel position) {
-        /*Bundle bundle = new Bundle();
+        Bundle bundle = new Bundle();
         ArrayList<MovieModel> movieModels = new ArrayList<>();
 
         movieModels.add(position);
@@ -94,8 +94,8 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         Intent intent = new Intent(this.getActivity(), DetailMovieActivity.class);
         intent.putExtras(bundle);
 
-        startActivity(intent);*/
-        Toast.makeText(getContext(), "on click ", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+
     }
 
 
