@@ -26,6 +26,17 @@ public class NetworkUtils {
     public NetworkUtils() {
     }
 
+    //trailer url
+    public static String trailerUrl(String rootUrl,String idMovie, String apiKey){
+        Uri builtUri = Uri.parse(rootUrl).buildUpon()
+                .appendPath(idMovie)
+                .appendPath("videos")
+                .appendQueryParameter("api_key", apiKey)
+                .build();
+
+        return builtUri.toString();
+    }
+
     public static String buildUrl(String rootUrl, String apiKey){
         Uri builtUri = Uri.parse(rootUrl).buildUpon()
                 .appendQueryParameter("api_key", apiKey)

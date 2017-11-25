@@ -1,5 +1,6 @@
 package id.developer.agungaprian.popularmovieapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,11 +18,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import id.developer.agungaprian.popularmovieapp.adapter.TrailerAdapter;
 import id.developer.agungaprian.popularmovieapp.model.MovieModel;
+import id.developer.agungaprian.popularmovieapp.model.TrailerModel;
+import id.developer.agungaprian.popularmovieapp.util.JsonUtil;
+import id.developer.agungaprian.popularmovieapp.util.NetworkUtils;
 
 /**
  * Created by agungaprian on 24/11/17.
@@ -29,9 +36,9 @@ import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 
 public class DetailMovieFragment extends Fragment {
     private ArrayList<MovieModel> movieModels = new ArrayList<>();
-    //TrailerModel[] trailerLIst ;
+    TrailerModel[] trailerLIst ;
     String imageBackdropUrl;
-    //TrailerAdapter trailerAdapter;
+    TrailerAdapter trailerAdapter;
 
     @BindView(R.id.toolbarImage)
     ImageView toolImage;
@@ -63,6 +70,12 @@ public class DetailMovieFragment extends Fragment {
     @BindView(R.id.extras)
     LinearLayout extraLayout;
 
+
+    private static String apiKey = "5dcd6ed59f6311eeeaeb846201f551b6";
+    private static String rootUrl = "https://api.themoviedb.org/3/movie";
+    private static String movieId;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detail_fragment, container, false);
@@ -78,6 +91,8 @@ public class DetailMovieFragment extends Fragment {
         }else {
             movieModels = getArguments().getParcelableArrayList(getString(R.string.GET_MOVIE_DATA));
         }
+
+        movieId = String.valueOf(movieModels.get(0).getId());
 
         //add collapsing toolbar name
         collapsingToolbarLayout.setTitle(movieModels.get(0).getOriginalTitle());
@@ -105,5 +120,51 @@ public class DetailMovieFragment extends Fragment {
         //set release date
         releaseText.setText("Release Date\n" + movieModels.get(0).getReleaseDate());
         return view;
+    }
+
+    public void loadTrailerData(){
+        showTrailerData();
+        new FetchTrailerTask().execute();
+    }
+
+    public void showTrailerData(){
+        trailersRecyclerView.setVisibility(View.VISIBLE);
+        noTrailerView.setVisibility(View.INVISIBLE);
+    }
+
+    public void showNoTrailerData(){
+        trailersRecyclerView.setVisibility(View.INVISIBLE);
+        noTrailerView.setVisibility(View.VISIBLE);
+    }
+
+    private class FetchTrailerTask extends AsyncTask<String , Void, TrailerModel[]> {
+
+        @Override
+        protected TrailerModel[] doInBackground(String... params) {
+            NetworkUtils networkUtils = new NetworkUtils();
+
+            String jsonData = networkUtils.makeServiceCall(NetworkUtils.trailerUrl(rootUrl, movieId, apiKey));
+            if (jsonData != null){
+                try {
+                    TrailerModel[] jsonTrailerData = JsonUtil.getTrailerFromJson(jsonData);
+                    return jsonTrailerData;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(TrailerModel[] trailerModels) {
+            super.onPostExecute(trailerModels);
+            if (trailerModels != null){
+                showTrailerData();
+                trailerAdapter.setTrailerData(trailerModels);
+                trailerLIst = trailerModels;
+            }else {
+                showNoTrailerData();
+            }
+        }
     }
 }

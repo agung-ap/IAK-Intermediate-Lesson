@@ -48,6 +48,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_movie_fragment, container, false);
+        //allow menu in fragment
         setHasOptionsMenu(true);
 
         errorMessageDisplay = (TextView)view.findViewById(R.id.eror_message);
@@ -68,10 +69,20 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //loadMovieData();
+
+                //change title actionbar by sorting menu or default sortMethod
+                if (getSortMethod().equals("popular")){
+                    loadMovieData(popularUrl);
+                    ((ListMovieActivity)getActivity()).getSupportActionBar().setTitle("Popular");
+                }else {
+                    loadMovieData(topRatedUrl);
+                    ((ListMovieActivity)getActivity()).getSupportActionBar().setTitle("Top Rated");
+                }
+
             }
         });
 
+        //change title actionbar by sorting menu or default sortMethod
         if (getSortMethod().equals("popular")){
             loadMovieData(popularUrl);
             ((ListMovieActivity)getActivity()).getSupportActionBar().setTitle("Popular");
@@ -82,7 +93,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
 
         return view;
     }
-
+    //load movie data from internet to recycler view
     public void loadMovieData(String rootUrl){
         showMovie();
 
@@ -90,18 +101,21 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         new FetchMovieTask(rootUrl).execute();
     }
 
+    //show movie when internet connection is good
     public void showMovie(){
         recyclerView.setVisibility(View.VISIBLE);
         errorMessageDisplay.setVisibility(View.INVISIBLE);
         refreshButton.setVisibility(View.INVISIBLE);
     }
 
+    //show message when internet connection is not good
     public void showEror(){
         recyclerView.setVisibility(View.INVISIBLE);
         errorMessageDisplay.setVisibility(View.VISIBLE);
         refreshButton.setVisibility(View.VISIBLE);
     }
 
+    //onClick method
     @Override
     public void onClick(MovieModel position) {
         Bundle bundle = new Bundle();
@@ -116,6 +130,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         startActivity(intent);
     }
 
+    //inflate menu layout
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
@@ -123,29 +138,33 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    //give command to every menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.sort_by_popular:
+                //update preferences
                 updatePrefrences("popular");
-
+                //set actionbar title
                 ((ListMovieActivity)getActivity())
                         .getSupportActionBar().setTitle("Popular");
-
+                //load movie data
                 loadMovieData(popularUrl);
                 break;
             case R.id.sort_by_top_rated:
+                //update prefrences
                 updatePrefrences("top rated");
-
+                //set acion bar title
                 ((ListMovieActivity)getActivity())
                         .getSupportActionBar().setTitle("Top Rated");
-
+                //load movie data
                 loadMovieData(topRatedUrl);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //get default prefrences
     private String getSortMethod(){
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(getContext());
@@ -153,6 +172,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         return preferences.getString(getString(R.string.PREFRENCES_KEY),"popular");
     }
 
+    //update prefrences
     private void updatePrefrences(String sortMethod){
         SharedPreferences preferences = PreferenceManager
                 .getDefaultSharedPreferences(getContext());
@@ -162,7 +182,7 @@ public class ListMovieFragment extends Fragment implements ListMovieAdapter.Movi
         editor.apply();
     }
 
-
+    //fecth movie class
     private class FetchMovieTask extends AsyncTask<String, Void, MovieModel[]>{
         String rootUrl;
 
