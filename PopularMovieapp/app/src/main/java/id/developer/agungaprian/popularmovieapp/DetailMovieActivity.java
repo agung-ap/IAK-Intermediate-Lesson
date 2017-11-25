@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import butterknife.ButterKnife;
 import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 
 /**
@@ -18,12 +19,13 @@ import id.developer.agungaprian.popularmovieapp.model.MovieModel;
 public class DetailMovieActivity extends AppCompatActivity{
     private ArrayList<MovieModel> movieModels;
     private String movieTitle;
-    public static Context getContext;
+    static Context getContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
         getContext = getApplicationContext();
 
@@ -45,6 +47,10 @@ public class DetailMovieActivity extends AppCompatActivity{
         }else {
             movieTitle = savedInstanceState.getString(getString(R.string.GET_MOVIE_DATA));
         }
+    }
+
+    public Context getApplicationContext(){
+        return getContext;
     }
 
     @Override
