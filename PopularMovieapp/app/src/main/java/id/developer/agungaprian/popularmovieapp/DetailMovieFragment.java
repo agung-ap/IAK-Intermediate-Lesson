@@ -86,7 +86,15 @@ public class DetailMovieFragment extends Fragment {
                 .load(movieModels.get(0).getBackdropPath())
                 .placeholder(R.drawable.placeholder_image)
                 .error(R.drawable.eror_image)
+                .into(toolImage);
+        //add movie poster
+        Picasso.with(getContext())
+                .load(movieModels.get(0).getPosterPath())
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.eror_image)
                 .into(imageView);
+        //set title view
+        titleView.setText(movieModels.get(0).getOriginalTitle());
         //set rating value
         rating.setText(String.valueOf ( movieModels.get(0).getVoteAverage() ) );
         //set ratingbar value and maximum rating
@@ -95,7 +103,7 @@ public class DetailMovieFragment extends Fragment {
         //set overview value
         overview.setText(movieModels.get(0).getOverView());
         //set release date
-        releaseText.setText(movieModels.get(0).getReleaseDate());
+        releaseText.setText("Release Date\n" + movieModels.get(0).getReleaseDate());
         return view;
     }
 }
