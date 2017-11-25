@@ -57,13 +57,19 @@ public class ListMovieAdapter extends RecyclerView.Adapter<ListMovieAdapter.View
         return data.length;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView poster;
 
         public ViewHolder(View itemView) {
             super(itemView);
             //ambil view dari poster_movie
             poster = (ImageView)itemView.findViewById(R.id.image_poster);
+        }
+
+        //implement onclicklistener
+        @Override
+        public void onClick(View v) {
+            clickHandler.onClick(data[getAdapterPosition()]);
         }
     }
 

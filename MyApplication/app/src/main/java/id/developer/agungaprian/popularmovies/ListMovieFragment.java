@@ -60,8 +60,8 @@ public class ListMovieFragment extends Fragment implements MovieAdapter.MovieAda
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Realm.init(getActivity());
-        realm = Realm.getDefaultInstance();
+        /*Realm.init(getActivity());
+        realm = Realm.getDefaultInstance();*/
     }
 
     @Override
@@ -78,8 +78,8 @@ public class ListMovieFragment extends Fragment implements MovieAdapter.MovieAda
 
         GridLayoutManager gridLayoutManager
                 = new GridLayoutManager(getContext(),2);
-        animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.grid_layout_animation_from_bottom);
-        recyclerView.setLayoutAnimation(animation);
+        //animation = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.grid_layout_animation_from_bottom);
+        //recyclerView.setLayoutAnimation(animation);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
 
@@ -176,7 +176,7 @@ public class ListMovieFragment extends Fragment implements MovieAdapter.MovieAda
     }
 
     public void getFavourites(){
-        RealmResults<MovieModel> realmResults = realm.where(MovieModel.class).findAll();
+        /*RealmResults<MovieModel> realmResults = realm.where(MovieModel.class).findAll();
         MovieModel [] movieModels = new MovieModel[realmResults.size()];
 
         for (int i = 0; i < realmResults.size(); i++){
@@ -184,7 +184,7 @@ public class ListMovieFragment extends Fragment implements MovieAdapter.MovieAda
 
         }
 
-        movieAdapter.setMovieData(movieModels);
+        movieAdapter.setMovieData(movieModels);*/
    }
 
     private String getSortMethod() {
