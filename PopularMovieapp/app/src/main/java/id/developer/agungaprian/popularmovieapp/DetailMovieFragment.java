@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -119,6 +120,15 @@ public class DetailMovieFragment extends Fragment {
         overview.setText(movieModels.get(0).getOverView());
         //set release date
         releaseText.setText("Release Date\n" + movieModels.get(0).getReleaseDate());
+
+        LinearLayoutManager trailerLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager reviewLayoutManager = new LinearLayoutManager(getContext());
+
+        trailersRecyclerView.setLayoutManager(trailerLayoutManager);
+        trailerAdapter = new TrailerAdapter(getContext());
+        trailersRecyclerView.setAdapter(trailerAdapter);
+
+        loadTrailerData();
         return view;
     }
 
